@@ -17,6 +17,9 @@ sub method {
 }
 
 sub path {
+    my $self = shift;
+    my ($path) = $self->{req} =~ m!\s(/\S*)!;
+    return $path;
 }
 
 sub uri {
@@ -24,5 +27,4 @@ sub uri {
 
 sub time {
 }
-
 1;
