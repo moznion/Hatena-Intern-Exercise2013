@@ -11,6 +11,9 @@ sub protocol {
 }
 
 sub method {
+    my $self = shift;
+    my ($method) = $self->{req} =~ /(\S*)/;
+    return $method;
 }
 
 sub path {
