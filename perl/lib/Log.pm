@@ -8,6 +8,9 @@ sub new {
 }
 
 sub protocol {
+    my $self = shift;
+    my ($protocol) = $self->{req} =~ /(\S*)$/;
+    return $protocol;
 }
 
 sub method {
