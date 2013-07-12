@@ -22,4 +22,8 @@ sub uri {
 sub time {
 }
 
+sub to_hash {
+    my $self = shift;
+    exit(1); # FIXME implement me!
+}
 1;
