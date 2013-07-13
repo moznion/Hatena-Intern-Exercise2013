@@ -36,4 +36,21 @@ sub time {
     my $time = $self->{epoch};
     return POSIX::strftime('%FT%T', gmtime($time));
 }
+
+sub to_hash {
+    my $self = shift;
+    my $hash = +{
+        'status'  => $self->{status},
+        'time'    => $self->time(),
+        'size'    => $self->{size},
+        'uri'     => $self->uri(),
+        'user'    => $self->{user},
+        'method'  => $self->method(),
+        'referer' => $self->{referer}
+    };
+    for my $field (keys %$hash) {
+        delete $hash->{$field} unless $hash->{$field};
+    }
+    return $hash;
+}
 1;
