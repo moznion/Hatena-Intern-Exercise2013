@@ -1,11 +1,7 @@
 package Log;
 use strict;
 use warnings;
-use POSIX qw/strftime setlocale LC_TIME/;
-
-BEGIN {
-    $ENV{'TZ'} = 'GMT-0'; # XXX IT IS NOT JST!
-}
+use POSIX ();
 
 sub new {
     my ($class, %args) = @_;
@@ -38,6 +34,6 @@ sub uri {
 sub time {
     my $self = shift;
     my $time = $self->{epoch};
-    return strftime('%FT%T', localtime($time));
+    return POSIX::strftime('%FT%T', gmtime($time));
 }
 1;
