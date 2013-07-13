@@ -14,7 +14,7 @@ sub parse {
 
     my @log_object;
     {
-        open my $fh, '<', 'log.ltsv';
+        open my $fh, '<', $self->{filename};
         while (my $line = <$fh>) {
             my %log;
             for my $log_element (split(/\t/, $line)) {
