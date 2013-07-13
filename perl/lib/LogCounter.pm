@@ -8,6 +8,13 @@ sub new {
 };
 
 sub group_by_user {
+    my $self = shift;
+    my %logs_by_users;
+    for my $log (@{$self->{logs}}) {
+        my $user = $log->{user} || 'guest';
+        push @{$logs_by_users{$user}}, $log;
+    }
+    return \%logs_by_users;
 }
 
 sub count_error {
