@@ -10,20 +10,17 @@ sub new {
 
 sub protocol {
     my $self = shift;
-    my ($protocol) = $self->{req} =~ /(\S*)$/;
-    return $protocol;
+    return $self->_parse_request->{protocol};
 }
 
 sub method {
     my $self = shift;
-    my ($method) = $self->{req} =~ /^(\S*)/;
-    return $method;
+    return $self->_parse_request->{method};
 }
 
 sub path {
     my $self = shift;
-    my ($path) = $self->{req} =~ m!\s(/\S*)!;
-    return $path;
+    return $self->_parse_request->{path};
 }
 
 sub uri {
@@ -52,5 +49,15 @@ sub to_hash {
         delete $hash->{$field} unless $hash->{$field};
     }
     return $hash;
+}
+
+sub _parse_request {
+    my ($self, $request) = @_;
+    my ($method, $path, $protocol) = $self->{req} =~ m!^(\S*)\s(/\S*)\s(\S*)$!;
+    return +{
+        method   => $method,
+        path     => $path,
+        protocol => $protocol,
+    };
 }
 1;
