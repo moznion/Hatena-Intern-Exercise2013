@@ -11,6 +11,13 @@ sub group_by_user {
 }
 
 sub count_error {
+    my $self = shift;
+
+    my $errors;
+    for my $log (@{$self->{logs}}) {
+        $errors++ if $log->{status} =~ /5\d\d/;
+    }
+    return $errors;
 }
 
 1;
