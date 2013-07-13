@@ -36,4 +36,9 @@ sub time {
     my $time = $self->{epoch};
     return POSIX::strftime('%FT%T', gmtime($time));
 }
+
+sub to_hash {
+    my $self = shift;
+    exit(1); # FIXME implement me!
+}
 1;
