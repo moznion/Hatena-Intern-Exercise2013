@@ -1,4 +1,3 @@
-// 課題 JS-1: 関数 `parseLTSVLog` を記述してください
 function parseLTSVLog(logStr) {
     var logs = logStr.split("\n");
     logs.pop(); // Remove null element.
@@ -7,10 +6,24 @@ function parseLTSVLog(logStr) {
     var length = logs.length;
     for (var i = 0; i < length; i++) {
         var log = logs[i];
-        log.match(/path:([^\t]+)/);
-        var path = RegExp.$1;
-        log.match(/reqtime_microsec:([^\n]+)/);
-        var reqtime = parseInt(RegExp.$1, 10);
+
+        // For `path`
+        try {
+            var path = log.match(/path:([^\t]+)/)[1] || "-";
+        } catch (e) {
+            var path = "N/A";
+        }
+
+        // For `reqtime_microsec`
+        try {
+            var timeStr = log.match(/reqtime_microsec:([^\n]+)/)[1];
+            var reqtime;
+            if (!isNaN(reqtime = timeStr - 0)) {
+                reqtime = parseInt(timeStr, 10);
+            }
+        } catch (e) {
+            var reqtime = "N/A";
+        }
 
         logObjectList.push({
             path:             path,
@@ -20,9 +33,17 @@ function parseLTSVLog(logStr) {
     return logObjectList;
 }
 
-// 課題 JS-2: 関数 `createLogTable` を記述してください
 function createLogTable(dom, logObjectList) {
+    var childNodes       = dom.childNodes;
+    var childNodesLength = childNodes.length;
+
+    var logTable = document.getElementById("log-table");
+    if (logTable) {
+        logTable.parentNode.removeChild(logTable);
+    }
+
     var table = dom.appendChild(document.createElement("table"));
+    table.id  = "log-table";
     var thead = table.appendChild(document.createElement("thead"));
     thead.appendChild(document.createElement("tr")).innerHTML = "<th>path</th><th>reqtime_microsec</th>";
     var tbody = table.appendChild(document.createElement("tbody"));
