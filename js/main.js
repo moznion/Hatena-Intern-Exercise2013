@@ -20,7 +20,16 @@ function parseLTSVLog(logStr) {
 }
 
 function createLogTable(dom, logObjectList) {
+    var childNodes       = dom.childNodes;
+    var childNodesLength = childNodes.length;
+
+    var logTable = document.getElementById("log-table");
+    if (logTable) {
+        logTable.parentNode.removeChild(logTable);
+    }
+
     var table = dom.appendChild(document.createElement("table"));
+    table.id  = "log-table";
     var thead = table.appendChild(document.createElement("thead"));
     thead.appendChild(document.createElement("tr")).innerHTML = "<th>path</th><th>reqtime_microsec</th>";
     var tbody = table.appendChild(document.createElement("tbody"));
