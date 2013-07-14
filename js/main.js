@@ -4,7 +4,9 @@ function parseLTSVLog(logStr) {
     logs.pop(); // Remove null element.
 
     var logObjects = [];
-    logs.forEach(function(log) {
+    var length = logs.length;
+    for (var i = 0; i < length; i++) {
+        var log = logs[i];
         log.match(/path:([^\t]+)/);
         var path = RegExp.$1;
         log.match(/reqtime_microsec:([^\n]+)/);
@@ -14,7 +16,7 @@ function parseLTSVLog(logStr) {
             path:             path,
             reqtime_microsec: reqtime
         });
-    });
+    }
     return logObjects;
 }
 
@@ -23,10 +25,12 @@ function createLogTable(dom, logObjects) {
     var table = dom.appendChild(document.createElement("table"));
     var thead = table.appendChild(document.createElement("thead"));
     thead.appendChild(document.createElement("tr")).innerHTML = "<th>path</th><th>reqtime_microsec</th>";
-
     var tbody = table.appendChild(document.createElement("tbody"));
-    logObjects.forEach(function(logObject) {
+
+    var length = logObjects.length;
+    for (var i = 0; i < length; i++) {
+        var logObject = logObjects[i];
         var innerHTML = "<td>" + logObject.path + "</td><td>" + logObject.reqtime_microsec + "</td>";
         tbody.appendChild(document.createElement("tr")).innerHTML = innerHTML;
-    });
+    }
 }
