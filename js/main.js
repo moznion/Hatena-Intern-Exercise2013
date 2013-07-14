@@ -1,4 +1,3 @@
-// 課題 JS-1: 関数 `parseLTSVLog` を記述してください
 function parseLTSVLog(logStr) {
     var logs = logStr.split("\n");
     logs.pop(); // Remove null element.
@@ -20,7 +19,6 @@ function parseLTSVLog(logStr) {
     return logObjectList;
 }
 
-// 課題 JS-2: 関数 `createLogTable` を記述してください
 function createLogTable(dom, logObjectList) {
     var table = dom.appendChild(document.createElement("table"));
     var thead = table.appendChild(document.createElement("thead"));
