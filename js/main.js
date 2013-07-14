@@ -6,10 +6,24 @@ function parseLTSVLog(logStr) {
     var length = logs.length;
     for (var i = 0; i < length; i++) {
         var log = logs[i];
-        log.match(/path:([^\t]+)/);
-        var path = RegExp.$1;
-        log.match(/reqtime_microsec:([^\n]+)/);
-        var reqtime = parseInt(RegExp.$1, 10);
+
+        // For `path`
+        try {
+            var path = log.match(/path:([^\t]+)/)[1] || "-";
+        } catch (e) {
+            var path = "N/A";
+        }
+
+        // For `reqtime_microsec`
+        try {
+            var timeStr = log.match(/reqtime_microsec:([^\n]+)/)[1];
+            var reqtime;
+            if (!isNaN(reqtime = timeStr - 0)) {
+                reqtime = parseInt(timeStr, 10);
+            }
+        } catch (e) {
+            var reqtime = "N/A";
+        }
 
         logObjectList.push({
             path:             path,
