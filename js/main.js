@@ -19,3 +19,14 @@ function parseLTSVLog(logStr) {
 }
 
 // 課題 JS-2: 関数 `createLogTable` を記述してください
+function createLogTable(dom, logObjects) {
+    var table = dom.appendChild(document.createElement("table"));
+    var thead = table.appendChild(document.createElement("thead"));
+    thead.appendChild(document.createElement("tr")).innerHTML = "<th>path</th><th>reqtime_microsec</th>";
+
+    var tbody = table.appendChild(document.createElement("tbody"));
+    logObjects.forEach(function(logObject) {
+        var innerHTML = "<td>" + logObject.path + "</td><td>" + logObject.reqtime_microsec + "</td>";
+        tbody.appendChild(document.createElement("tr")).innerHTML = innerHTML;
+    });
+}
