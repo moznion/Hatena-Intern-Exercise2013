@@ -3,7 +3,7 @@ function parseLTSVLog(logStr) {
     var logs = logStr.split("\n");
     logs.pop(); // Remove null element.
 
-    var logObjects = [];
+    var logObjectList = [];
     var length = logs.length;
     for (var i = 0; i < length; i++) {
         var log = logs[i];
@@ -12,24 +12,24 @@ function parseLTSVLog(logStr) {
         log.match(/reqtime_microsec:([^\n]+)/);
         var reqtime = parseInt(RegExp.$1, 10);
 
-        logObjects.push({
+        logObjectList.push({
             path:             path,
             reqtime_microsec: reqtime
         });
     }
-    return logObjects;
+    return logObjectList;
 }
 
 // 課題 JS-2: 関数 `createLogTable` を記述してください
-function createLogTable(dom, logObjects) {
+function createLogTable(dom, logObjectList) {
     var table = dom.appendChild(document.createElement("table"));
     var thead = table.appendChild(document.createElement("thead"));
     thead.appendChild(document.createElement("tr")).innerHTML = "<th>path</th><th>reqtime_microsec</th>";
     var tbody = table.appendChild(document.createElement("tbody"));
 
-    var length = logObjects.length;
+    var length = logObjectList.length;
     for (var i = 0; i < length; i++) {
-        var logObject = logObjects[i];
+        var logObject = logObjectList[i];
         var innerHTML = "<td>" + logObject.path + "</td><td>" + logObject.reqtime_microsec + "</td>";
         tbody.appendChild(document.createElement("tr")).innerHTML = innerHTML;
     }
