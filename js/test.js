@@ -30,10 +30,23 @@ QUnit.test("`parseLTSVLog` 関数の動作確認", function () {
     logStr = "";
     logRecords = parseLTSVLog(logStr);
     QUnit.deepEqual(logRecords, [], "空文字列を渡したときは空の配列を返す");
+});
 
-    // テストを追加する場合は、この下に追加しても構いませんし、
-    // `QUnit.test` 関数や `QUnit.asyncTest` 関数を用いて別に定義しても良いです。
+QUnit.test("`parseLTSVLog` 関数の「例外的」動作確認", function () {
+    var logStr;
+    var logRecords;
 
+    logStr = "p:/\tr:500000\n";
+    logRecords = parseLTSVLog(logStr);
+    QUnit.deepEqual(logRecords, [
+        { path: "N/A", reqtime_microsec: "N/A" }
+    ], "path と reqtime_microsec フィールドが存在しない為 N/A になる");
+
+    logStr = "path:/\treqtime_microsec:Hello!\n";
+    logRecords = parseLTSVLog(logStr);
+    QUnit.deepEqual(logRecords, [
+        { path: "/", reqtime_microsec: NaN }
+    ], "reqtime_microsec フィールドが非数値である為 NaN になる");
 });
 
 QUnit.module("課題 JS-2");
